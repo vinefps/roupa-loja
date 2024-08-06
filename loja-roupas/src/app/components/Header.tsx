@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import { Head } from 'next/document'
 
 import { Saira_Stencil_One } from 'next/font/google';
 import { PrimaryInput } from './Primary-Input';
@@ -12,8 +13,10 @@ const sairaStencil = Saira_Stencil_One({
 export const Header = () => {
     return (
         <header>
-            <div className="flex items-center justify-between p-4 bg-gray-100 border-b border-gray-200">
-                <div className={`${sairaStencil.className} text-2xl font-bold`}><Link href="/">caputteno</Link></div>
+            <div className="flex items-center justify-evenly p-4 border-b">
+                <div className='flex items-center w-[544px] h-[80px] ml-[160px] bg-red-400'>
+                    <div className={`${sairaStencil.className} leading-10 text-4xl font-bold`}><Link href="/">caputteno</Link></div>
+                </div>
                 <div className="flex items-center">
                     <PrimaryInput />
                     <div className="ml-3 relative">

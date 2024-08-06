@@ -1,6 +1,7 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef} from 'react';
+import {Button} from './Button'
 
 export function PrimaryInput() {
 
@@ -10,17 +11,15 @@ export function PrimaryInput() {
     function handleSubmit() {
         if (primaryRef.current) {
             const value = primaryRef.current.value;
-            setPrimaryRefValue(value ? value: null);
+            setPrimaryRefValue(value);
             console.log(primaryRef.current.value)
         } 
     }
 
     return (
-        <div>
-            <input type="text" placeholder="Nome do Produto" ref={primaryRef} />
-            <button className="bg-blue-400 text-white py-2 px-4 ml-2 rounded hover:bg-blue-500"
-                onClick={handleSubmit}> SUBMIT
-            </button>
+        <div className=''>
+            <input className="bg-gray-100 outline-none p-2 rounded-md" type="text" placeholder="Nome do Produto" ref={primaryRef} />
+            <Button handleSubmit={handleSubmit}/>
         </div>
     )
 }
