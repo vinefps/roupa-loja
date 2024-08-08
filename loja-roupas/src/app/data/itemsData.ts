@@ -32,7 +32,5 @@ const allProducts = new Array(TOTAL_PAGES).fill(1).reduce((acc) => {
   return [...acc, ...products]
 }, [])
 
-module.exports = {
-  allProducts
-}
+export default allProducts
 

@@ -14,7 +14,7 @@ export const Header = () => {
     return (
         <header>
             <div className="flex items-center justify-evenly p-4 border-b">
-                <div className='flex items-center w-[544px] h-[80px] ml-[160px] bg-red-400'>
+                <div className='flex items-center w-[544px] h-[80px] ml-[160px] '>
                     <div className={`${sairaStencil.className} leading-10 text-4xl font-bold`}><Link href="/">caputteno</Link></div>
                 </div>
                 <div className="flex items-center">
