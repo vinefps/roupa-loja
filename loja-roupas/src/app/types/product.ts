@@ -1,7 +1,9 @@
 export interface ItemType {
-    name:string;
-    description:string;
-    image_url:string;
-    category:string;
-    id:number;
+    id: number;
+    name: string;
+    image_url?:string;
+    price_in_cents?: number;
+    quantity?: number;
+    size?: string;
+
 }
