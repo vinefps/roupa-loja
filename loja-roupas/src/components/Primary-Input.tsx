@@ -1,25 +1,13 @@
-'use client'
+import { Button } from './Button'
+import { TypeItemSearch } from '../app/types/product'
 
-import { useState, useRef} from 'react';
-import {Button} from './Button'
+export function PrimaryInput({ setItemSearch }: TypeItemSearch) {
 
-export function PrimaryInput() {
-
-    const primaryRef = useRef<HTMLInputElement>(null);
-    const [primaryRefValue, setPrimaryRefValue] = useState<null | string>(null);
-
-    function handleSubmit() {
-        if (primaryRef.current) {
-            const value = primaryRef.current.value;
-            setPrimaryRefValue(value);
-            console.log(primaryRef.current.value)
-        } 
-    }
 
     return (
         <div className=''>
-            <input className="bg-gray-100 outline-none p-2 rounded-md" type="text" placeholder="Nome do Produto" ref={primaryRef} />
-            <Button handleSubmit={handleSubmit}/>
+            <input onChange={(e) => setItemSearch(e.target.value)} className="bg-gray-100 outline-none p-2 rounded-md" type="text" placeholder="Nome do Produto"/>
+            <Button />
         </div>
     )
 }

@@ -1,18 +1,31 @@
 'use client'
 import { Filter } from "@/components/Filter";
 import { ProductList } from "@/components/ProductList";
-import { useState } from "react";
+import { CartProvider } from '../contexts/cartContext/CartProvider';
+import { useState, useEffect } from "react";
+import { Header } from '../components/Header'
+import { ItemType } from './types/product'
+import allProducts from "../app/data/itemsData";
 
 export default function Home() {
   const [buttonPage, setPage] = useState<number>(1);
-  function handleSelectedPage(page:number){
+  const [itemSearch, setItemSearch] = useState<string>('');
+  const [products, setProducts] = useState<ItemType[]>([]);
+  function handleSelectedPage(page: number) {
     setPage(page)
   }
 
+  useEffect(() => {
+    setProducts(allProducts);
+  }, []);
+
   return (
     <main className="bg-gray-200">
-      <Filter handleSelectedPage={handleSelectedPage}/>
-      <ProductList buttonPage={buttonPage}/>
+      <CartProvider>
+        <Header setItemSearch={setItemSearch} />
+        <Filter handleSelectedPage={handleSelectedPage} />
+        <ProductList buttonPage={buttonPage} products={products} itemSearch={itemSearch}/>
+      </CartProvider>
     </main>
   );
 }

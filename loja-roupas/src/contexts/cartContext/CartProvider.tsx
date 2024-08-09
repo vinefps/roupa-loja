@@ -2,9 +2,10 @@
 import { ItemType } from "../../app/types/product";
 import { createContext, useContext, ReactNode, useState } from "react";
 
+
 interface CartTypeContext {
   cartItems: ItemType[];
-  setCartItems: React.Dispatch<React.SetStateAction<ItemType>>;
+  setCartItems: React.Dispatch<React.SetStateAction<ItemType[]>>;
 }
 
 interface ChildrenContextProvider {
@@ -13,9 +14,7 @@ interface ChildrenContextProvider {
 
 const CartContext = createContext<CartTypeContext | undefined>(undefined);
 
-
-
-export function useCartContext<CartTypeContext>(){
+export function useCartContext(){
     const context = useContext(CartContext);
 
     if (!context) {
