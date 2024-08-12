@@ -3,20 +3,21 @@ import { useState, useEffect, useContext } from "react";
 import Link from "next/link";
 import { useCartContext } from "@/contexts/cartContext/CartProvider";
 import { ItemType, MainPageTypes } from "@/app/types/product";
+import { useSearchContext } from '../contexts/searchContext/SearchProvider'
 
 
 
 
 
-export function ProductList({ products, itemSearch, buttonPage }: MainPageTypes) {
-  const [currentPage, setCurrentPage] = useState<number>(1);
+export function ProductList({ products, buttonPage }: MainPageTypes) {
+  const { searchTerm, setSearchTerm } = useSearchContext();
   const { cartItems, setCartItems } = useCartContext();
   const itemsPerPage = 12;
   const indexOfLastItem = itemsPerPage * buttonPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
   const filteredItems = products.filter((item) =>
-    item.name.toLowerCase().includes(itemSearch.toLowerCase())
+    item.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
   const currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
 
@@ -35,10 +36,8 @@ export function ProductList({ products, itemSearch, buttonPage }: MainPageTypes)
       const exists = prev.some((item) => item.id === objItem.id);
 
       if (exists) {
-        return prev.map((item) =>
-          item.id === objItem.id && item.quantity !== undefined
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
+        return prev.map((item) => item.id === objItem.id && item.quantity !== undefined ? { ...item, quantity: item.quantity + 1 }
+          : item
         );
       } else {
         return [...prev, objItem];
@@ -73,11 +72,10 @@ export function ProductList({ products, itemSearch, buttonPage }: MainPageTypes)
                 {item.name}
               </div>
               <div className="rounded-md bg-gray-100 px-2 mr-2 font-bold">
-                {`R$ ${
-                  item.price_in_cents !== undefined
-                    ? item.price_in_cents / 100
-                    : undefined
-                }`}
+                {`R$ ${item.price_in_cents !== undefined
+                  ? item.price_in_cents / 100
+                  : undefined
+                  }`}
               </div>
             </Link>
             <div className="flex w-full">

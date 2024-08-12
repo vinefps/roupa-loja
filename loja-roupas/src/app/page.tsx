@@ -22,15 +22,12 @@ export default function Home() {
 
   return (
     <main className="bg-gray-200">
-      <CartProvider>
-        <HeaderLayout setItemSearch={setItemSearch} />
         <Filter handleSelectedPage={handleSelectedPage} />
         <ProductList
           buttonPage={buttonPage}
           products={products}
           itemSearch={itemSearch}
         />
-      </CartProvider>
     </main>
   );
 }

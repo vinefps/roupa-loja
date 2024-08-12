@@ -19,5 +19,5 @@ export interface MainPageTypes {
 
 
 export interface TypeHeader {
-    setItemSearch?: (prev: string) => void;
+    setSearchTerm?: (prev: string) => void;
 }

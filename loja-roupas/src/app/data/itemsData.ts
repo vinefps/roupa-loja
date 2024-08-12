@@ -1,5 +1,8 @@
 const faker = require('faker');
 
+
+faker.seed(123);
+
 const TOTAL_PAGES = 5;
 
 const baseProducts = [
@@ -32,5 +35,4 @@ const allProducts = new Array(TOTAL_PAGES).fill(1).reduce((acc) => {
   return [...acc, ...products]
 }, [])
 
-export default allProducts
-
+export default allProducts;
