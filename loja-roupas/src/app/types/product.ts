@@ -1,20 +1,23 @@
+import { ReactNode } from 'react';
+
 export interface ItemType {
     id: number;
     name: string;
     image_url?: string;
     price_in_cents?: number;
-    quantity?: number;
+    description?:string
+    quantity: number;
     size?: string;
 
 }
 
-export interface SelectPage {
+export interface MainPageTypes {
     buttonPage: number;
     products: ItemType[];
-    itemSearch: string;
+    itemSearch:string;
 }
 
 
-export interface TypeItemSearch {
-    setItemSearch: (prev:string) => void;
+export interface TypeHeader {
+    setItemSearch?: (prev: string) => void;
 }

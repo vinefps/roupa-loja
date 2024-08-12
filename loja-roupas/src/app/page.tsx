@@ -1,18 +1,19 @@
-'use client'
+"use client";
 import { Filter } from "@/components/Filter";
-import { ProductList } from "@/components/ProductList";
-import { CartProvider } from '../contexts/cartContext/CartProvider';
+import { ProductList } from "../components/ProductList";
+import { CartProvider } from "../contexts/cartContext/CartProvider";
 import { useState, useEffect } from "react";
-import { Header } from '../components/Header'
-import { ItemType } from './types/product'
+import HeaderLayout from "../components/HeaderLayout";
+import { ItemType } from "./types/product";
+
 import allProducts from "../app/data/itemsData";
 
 export default function Home() {
   const [buttonPage, setPage] = useState<number>(1);
-  const [itemSearch, setItemSearch] = useState<string>('');
+  const [itemSearch, setItemSearch] = useState<string>("");
   const [products, setProducts] = useState<ItemType[]>([]);
   function handleSelectedPage(page: number) {
-    setPage(page)
+    setPage(page);
   }
 
   useEffect(() => {
@@ -22,9 +23,13 @@ export default function Home() {
   return (
     <main className="bg-gray-200">
       <CartProvider>
-        <Header setItemSearch={setItemSearch} />
+        <HeaderLayout setItemSearch={setItemSearch} />
         <Filter handleSelectedPage={handleSelectedPage} />
-        <ProductList buttonPage={buttonPage} products={products} itemSearch={itemSearch}/>
+        <ProductList
+          buttonPage={buttonPage}
+          products={products}
+          itemSearch={itemSearch}
+        />
       </CartProvider>
     </main>
   );
