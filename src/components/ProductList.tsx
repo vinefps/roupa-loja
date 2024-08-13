@@ -1,24 +1,35 @@
 "use client";
-import { useEffect} from "react";
+import { useEffect } from "react";
 import Link from "next/link";
+import Image from 'next/image';
 import { useCartContext } from "@/contexts/cartContext/CartProvider";
 import { ItemType, MainPageTypes } from "@/app/types/product";
 import { useSearchContext } from '../contexts/searchContext/SearchProvider'
-import Image from 'next/image';
 
 
 
 
 
-export function ProductList({ products, buttonPage }: MainPageTypes) {
+
+export function ProductList({ products, buttonPage, categoryFilter }: MainPageTypes) {
   const { searchTerm } = useSearchContext();
   const { cartItems, setCartItems } = useCartContext();
   const itemsPerPage = 12;
   const indexOfLastItem = itemsPerPage * buttonPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
-  const filteredItems = products.filter((item) =>
-    item.name.toLowerCase().includes(searchTerm.toLowerCase())
+
+  const filteredItems = products.filter((item) => {
+    if (categoryFilter === 'TODOS') {
+      return item.name.toLowerCase().includes(searchTerm.toLowerCase())
+    } else if (categoryFilter === 'CAMISETAS') {
+      return item.category === 't-shirts'
+    } else if (categoryFilter === 'CANECAS') {
+      return item.category === 'mugs'
+    } else {
+      return item;
+    }
+  }
   );
   const currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
 
@@ -30,7 +41,7 @@ export function ProductList({ products, buttonPage }: MainPageTypes) {
     return <div>Loading...</div>;
   }
 
-  function handleAddCart({ name, id, quantity,price_in_cents,image_url }: ItemType) {
+  function handleAddCart({ name, id, quantity, price_in_cents, image_url }: ItemType) {
     const objItem = { name, id, quantity, price_in_cents, image_url };
 
     setCartItems((prev) => {
