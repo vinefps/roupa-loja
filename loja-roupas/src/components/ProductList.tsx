@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useCartContext } from "@/contexts/cartContext/CartProvider";
 import { ItemType, MainPageTypes } from "@/app/types/product";
 import { useSearchContext } from '../contexts/searchContext/SearchProvider'
+import Image from 'next/image';
 
 
 
@@ -63,7 +64,7 @@ export function ProductList({ products, buttonPage }: MainPageTypes) {
         {currentItems.map((item: ItemType) => (
           <div key={item.id} className="w-[200px] ">
             <Link href={`/${item.id}`}>
-              <img
+              <Image
                 className="rounded-md"
                 src={item.image_url}
                 alt="item_image"

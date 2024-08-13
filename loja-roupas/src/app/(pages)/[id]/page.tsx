@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { ItemType } from "@/app/types/product";
 import { useParams } from "next/navigation";
 import { useCartContext } from "@/contexts/cartContext/CartProvider";
+import Image from 'next/image';
 
 export default function ProductDetail() {
   const { setCartItems } = useCartContext();
@@ -44,7 +45,7 @@ export default function ProductDetail() {
       </Link>
       {myItem ? (
         <div className="flex flex-col md:flex-row gap-10">
-          <img
+          <Image
             src={myItem.image_url || "/path-to-placeholder-image.png"}
             alt={myItem.name}
             className="w-full md:w-96 h-auto rounded-lg object-cover"
@@ -63,7 +64,7 @@ export default function ProductDetail() {
                 {myItem.description || "Descrição não disponível."}
               </p>
             </div>
-            <button onClick={() => handleAddCart({name:myItem.name, id:myItem.id, quantity: 1,image_url:myItem.image_url, price_in_cents:myItem.price_in_cents})} className="mt-10 bg-gray-800 text-white py-3 px-5 rounded-lg flex items-center gap-2 hover:bg-gray-700">
+            <button onClick={() => handleAddCart({ name: myItem.name, id: myItem.id, quantity: 1, image_url: myItem.image_url, price_in_cents: myItem.price_in_cents })} className="mt-10 bg-gray-800 text-white py-3 px-5 rounded-lg flex items-center gap-2 hover:bg-gray-700">
               ADICIONAR AO CARRINHO
             </button>
           </div>

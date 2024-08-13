@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import Link from 'next/link';
 import { useCartContext } from "@/contexts/cartContext/CartProvider";
 import { ItemType } from "@/app/types/product";
+import Image from 'next/image';
+
 
 interface ChangeQuantity {
   product: ItemType;
@@ -95,7 +97,7 @@ export default function CartPage() {
               key={product.id}
               className="bg-white rounded-lg shadow-md p-5 mb-5 flex"
             >
-              <img
+              <Image
                 src={product.image_url}
                 alt={product.name}
                 className="w-24 h-24 rounded-lg object-cover"
