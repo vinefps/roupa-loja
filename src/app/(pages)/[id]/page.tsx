@@ -48,6 +48,8 @@ export default function ProductDetail() {
           <Image
             src={myItem.image_url || "/path-to-placeholder-image.png"}
             alt={myItem.name}
+            width={300}
+            height={200}
             className="w-full md:w-96 h-auto rounded-lg object-cover"
           />
           <div className="max-w-md">

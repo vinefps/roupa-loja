@@ -100,6 +100,8 @@ export default function CartPage() {
               <Image
                 src={product.image_url}
                 alt={product.name}
+                width={300}
+                height={200}
                 className="w-24 h-24 rounded-lg object-cover"
               />
               <div className="ml-5 flex-1">

@@ -68,6 +68,8 @@ export function ProductList({ products, buttonPage }: MainPageTypes) {
                 className="rounded-md"
                 src={item.image_url}
                 alt="item_image"
+                width={300}
+                height={200}
               />
               <div className="rounded-md bg-gray-100 px-2 mr-2 h-[50px]">
                 {item.name}
