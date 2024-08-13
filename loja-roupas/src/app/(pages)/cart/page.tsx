@@ -1,24 +1,79 @@
-"use client"
+"use client";
 import React, { useEffect, useState } from "react";
-import Link from 'next/link'
+import Link from 'next/link';
 import { useCartContext } from "@/contexts/cartContext/CartProvider";
+import { ItemType } from "@/app/types/product";
+
+interface ChangeQuantity {
+  product: ItemType;
+  number: number;
+}
 
 export default function CartPage() {
   const [subTotal, setSubTotal] = useState(0);
+  const [totalCartItems, setTotalCart] = useState(0);
   const [stateTotal, setTotal] = useState(0);
-  const { cartItems } = useCartContext();
+  const { cartItems, setCartItems } = useCartContext();
+
+  // Carrega os itens do carrinho do localStorage ao montar o componente
+  useEffect(() => {
+    const savedCartItems = localStorage.getItem("cartItems");
+    if (savedCartItems) {
+      setCartItems(JSON.parse(savedCartItems));
+    }
+  }, [setCartItems]);
+
+  // Salva os itens do carrinho no localStorage sempre que eles mudarem
+  useEffect(() => {
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+  }, [cartItems]);
 
   useEffect(() => {
     if (cartItems.length > 0) {
-      const subtotal = cartItems.reduce((sum, product) =>
-        product.price_in_cents !== undefined ? sum + product.price_in_cents : 0, 0);
+      const subTotalValue = cartItems.reduce(
+        (acc, product) => acc + (product.price_in_cents * product.quantity) / 100,
+        0
+      );
       const deliveryFee = 40;
-      const total = subtotal + deliveryFee;
-      setSubTotal(subTotal)
-      setTotal(total)
+      setSubTotal(subTotalValue);
+      setTotal(subTotalValue + deliveryFee);
     }
-  }, [])
+  }, [cartItems]);
 
+  useEffect(() => {
+    const totalItems = cartItems.reduce((acc, product) => acc + product.quantity, 0);
+    setTotalCart(totalItems);
+  }, [cartItems]);
+
+  function removeQuantity({ product, number }: ChangeQuantity) {
+    setCartItems((prev) =>
+      prev
+        .map((item) => {
+          if (item.id === product.id && item.quantity > 1) {
+            return { ...item, quantity: item.quantity - 1 };
+          } else {
+            return item;
+          }
+        })
+        .filter((item) => item.quantity > 0)
+    );
+  }
+
+  function addQuantity({ product, number }: ChangeQuantity) {
+    setCartItems((prev) =>
+      prev.map((item) => {
+        if (item.id === product.id) {
+          return { ...item, quantity: item.quantity + 1 };
+        } else {
+          return item;
+        }
+      })
+    );
+  }
+
+  function handleRemoveFromCart(id: number) {
+    setCartItems((prev) => prev.filter((item) => item.id !== id));
+  }
 
   return (
     <div className="min-h-screen bg-gray-100 p-5 flex flex-col">
@@ -32,7 +87,8 @@ export default function CartPage() {
         <div className="flex-1">
           <h1 className="text-2xl font-bold mb-5">SEU CARRINHO</h1>
           <p className="text-lg mb-5">
-            Total ({cartItems.length} produtos) R${subTotal.toFixed(2)}
+            <div>Total ({cartItems.length} produtos) R${subTotal.toFixed(2)}</div>
+            <div>Total de Itens: {totalCartItems}</div>
           </p>
           {cartItems.map((product) => (
             <div
@@ -48,17 +104,27 @@ export default function CartPage() {
                 <h2 className="text-xl font-semibold">{product.name}</h2>
                 <p className="text-gray-600">{product.description}</p>
                 <div className="mt-3 flex items-center">
-                  <select className="border rounded-md mr-5">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                  </select>
-                  <span className="font-bold">
-                    R$ {product.price_in_cents?.toFixed(2)}
+                  <button
+                    onClick={() => removeQuantity({ product, number: product.quantity - 1 })}
+                    className="border rounded-md mr-5 p-2"
+                  >
+                    -
+                  </button>
+                  <span className="mr-5">{product.quantity}</span>
+                  <button
+                    onClick={() => addQuantity({ product, number: product.quantity + 1 })}
+                    className="border rounded-md p-2"
+                  >
+                    +
+                  </button>
+                  <span className="font-bold ml-5">
+                    R$ {(product.price_in_cents / 100).toFixed(2)}
                   </span>
                 </div>
               </div>
-              <button className="text-red-500 ml-5">
+              <button className="text-red-500 ml-5"
+                onClick={() => handleRemoveFromCart(product.id)}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -86,7 +152,7 @@ export default function CartPage() {
           </div>
           <div className="flex justify-between mb-3">
             <span>Entrega</span>
-            <span>R$ {'40'}</span>
+            <span>R$ 40,00</span>
           </div>
           <div className="flex justify-between font-bold text-lg mb-5">
             <span>Total</span>

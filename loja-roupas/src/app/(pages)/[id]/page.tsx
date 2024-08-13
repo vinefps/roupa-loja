@@ -19,8 +19,8 @@ export default function ProductDetail() {
     setMyItem(foundItem);
   }, [id]);
 
-  function handleAddCart({ name, id, quantity, image_url }: ItemType) {
-    const objItem = { name, id, quantity, image_url };
+  function handleAddCart({ name, id, quantity, image_url, price_in_cents }: ItemType) {
+    const objItem = { name, id, quantity, image_url, price_in_cents };
 
     setCartItems((prev) => {
       const exists = prev.some((item) => item.id === objItem.id);
@@ -63,12 +63,7 @@ export default function ProductDetail() {
                 {myItem.description || "Descrição não disponível."}
               </p>
             </div>
-            <button onClick={() => handleAddCart({name:myItem.name, id:myItem.id, quantity: 1,image_url:myItem.image_url})} className="mt-10 bg-gray-800 text-white py-3 px-5 rounded-lg flex items-center gap-2 hover:bg-gray-700">
-              <img
-                src="/path-to-your-icon.png"
-                alt="Ícone de carrinho"
-                className="w-5 h-5"
-              />
+            <button onClick={() => handleAddCart({name:myItem.name, id:myItem.id, quantity: 1,image_url:myItem.image_url, price_in_cents:myItem.price_in_cents})} className="mt-10 bg-gray-800 text-white py-3 px-5 rounded-lg flex items-center gap-2 hover:bg-gray-700">
               ADICIONAR AO CARRINHO
             </button>
           </div>

@@ -1,11 +1,11 @@
 'use client'
 import React from "react";
 import Link from "next/link";
-import { TypeHeader } from "../app/types/product";
 import { Saira_Stencil_One } from "next/font/google";
 import { PrimaryInput } from "./Primary-Input";
 import { useCartContext } from "@/contexts/cartContext/CartProvider";
 import { useSearchContext } from '../contexts/searchContext/SearchProvider'
+import { useState, useEffect } from "react";
 
 const sairaStencil = Saira_Stencil_One({
   weight: ["400"],
@@ -13,8 +13,17 @@ const sairaStencil = Saira_Stencil_One({
 });
 
 export default function HeaderLayout() {
-  const { searchTerm, setSearchTerm } = useSearchContext();
+  const [totalCartItems, setTotalCart] = useState(0)
+  const { setSearchTerm } = useSearchContext();
   const { cartItems } = useCartContext();
+
+  useEffect(() => {
+    const totalItems = cartItems.reduce((acc, product) => 
+      acc + product.quantity
+    , 0)
+    const total = totalItems
+    setTotalCart(total)
+  }, [cartItems])
   return (
     <header className="bg-white">
       <div className="flex items-center justify-evenly p-4 border-b">
@@ -44,7 +53,7 @@ export default function HeaderLayout() {
                 ></path>
               </svg>
               <span className="absolute top-0 right-0 -mt-2 -mr-2 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">
-                {cartItems.length}
+                {totalCartItems ? totalCartItems : '0'}
               </span>
             </div>
           </div>

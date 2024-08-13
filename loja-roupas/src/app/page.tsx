@@ -1,9 +1,7 @@
 "use client";
 import { Filter } from "@/components/Filter";
 import { ProductList } from "../components/ProductList";
-import { CartProvider } from "../contexts/cartContext/CartProvider";
 import { useState, useEffect } from "react";
-import HeaderLayout from "../components/HeaderLayout";
 import { ItemType } from "./types/product";
 
 import allProducts from "../app/data/itemsData";

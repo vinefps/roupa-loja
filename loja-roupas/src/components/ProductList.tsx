@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useContext } from "react";
+import { useEffect} from "react";
 import Link from "next/link";
 import { useCartContext } from "@/contexts/cartContext/CartProvider";
 import { ItemType, MainPageTypes } from "@/app/types/product";
@@ -10,7 +10,7 @@ import { useSearchContext } from '../contexts/searchContext/SearchProvider'
 
 
 export function ProductList({ products, buttonPage }: MainPageTypes) {
-  const { searchTerm, setSearchTerm } = useSearchContext();
+  const { searchTerm } = useSearchContext();
   const { cartItems, setCartItems } = useCartContext();
   const itemsPerPage = 12;
   const indexOfLastItem = itemsPerPage * buttonPage;
@@ -29,8 +29,8 @@ export function ProductList({ products, buttonPage }: MainPageTypes) {
     return <div>Loading...</div>;
   }
 
-  function handleAddCart({ name, id, quantity }: ItemType) {
-    const objItem = { name, id, quantity };
+  function handleAddCart({ name, id, quantity,price_in_cents,image_url }: ItemType) {
+    const objItem = { name, id, quantity, price_in_cents, image_url };
 
     setCartItems((prev) => {
       const exists = prev.some((item) => item.id === objItem.id);
@@ -45,30 +45,30 @@ export function ProductList({ products, buttonPage }: MainPageTypes) {
     });
   }
 
-  function handleRemoveCart(id: number) {
-    setCartItems((prev) => {
-      return prev.map((item) => {
-        if (item.id === id && item.quantity > 1) {
-          return { ...item, quantity: item.quantity - 1 };
-        } else {
-          return item;
-        }
-      });
-    });
-  }
+  // function handleRemoveCart(id: number) {
+  //   setCartItems((prev) => {
+  //     return prev.map((item) => {
+  //       if (item.id === id && item.quantity > 1) {
+  //         return { ...item, quantity: item.quantity - 1 };
+  //       } else {
+  //         return item;
+  //       }
+  //     });
+  //   });
+  // }
 
   return (
     <section className="flex justify-center bg-gray-200 my-8 h-full relative">
       <div className="grid grid-cols-4 grid-rows-4 gap-4">
         {currentItems.map((item: ItemType) => (
-          <div key={item.id} className="w-[200px]">
+          <div key={item.id} className="w-[200px] ">
             <Link href={`/${item.id}`}>
               <img
                 className="rounded-md"
                 src={item.image_url}
                 alt="item_image"
               />
-              <div className="rounded-md bg-gray-100 px-2 mr-2">
+              <div className="rounded-md bg-gray-100 px-2 mr-2 h-[50px]">
                 {item.name}
               </div>
               <div className="rounded-md bg-gray-100 px-2 mr-2 font-bold">
@@ -78,22 +78,6 @@ export function ProductList({ products, buttonPage }: MainPageTypes) {
                   }`}
               </div>
             </Link>
-            <div className="flex w-full">
-              <div
-                onClick={() =>
-                  handleAddCart({ id: item.id, name: item.name, quantity: 1 })
-                }
-                className="rounded-md bg-gray-100 px-2 mr-2"
-              >
-                +
-              </div>
-              <div
-                onClick={() => handleRemoveCart(item.id)}
-                className="rounded-md bg-gray-100 px-2 mr-2"
-              >
-                -
-              </div>
-            </div>
           </div>
         ))}
       </div>
