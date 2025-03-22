@@ -16,49 +16,51 @@ export default function HeaderLayout() {
   const [totalCartItems, setTotalCart] = useState(0)
   const { setSearchTerm } = useSearchContext();
   const { cartItems } = useCartContext();
-
+  
   useEffect(() => {
     const totalItems = cartItems.reduce((acc, product) => 
       acc + product.quantity
-    , 0)
-    const total = totalItems
-    setTotalCart(total)
+    , 0);
+    setTotalCart(totalItems);
   }, [cartItems])
+  
   return (
-    <header className="bg-white">
-      <div className="flex items-center justify-evenly p-4 border-b">
-        <div className="flex items-center w-[544px] h-[80px] ml-[160px] ">
-          <div
-            className={`${sairaStencil.className} leading-10 text-4xl font-bold`}
-          >
-            <Link href="/">caputteno</Link>
+    <header className="bg-white shadow-sm sticky top-0 z-50">
+      <div className="container mx-auto flex items-center justify-between py-4 px-6">
+        <div className="flex items-center">
+          <div className={`${sairaStencil.className} text-3xl font-bold text-blue-600`}>
+            <Link href="/" className="hover:opacity-90 transition-opacity">capputeno</Link>
           </div>
         </div>
-        <PrimaryInput setSearchTerm={setSearchTerm} />
-        <Link href="/cart">
-          <div className="flex items-center">
-            <div className="ml-3 relative">
-              <svg
-                className="w-6 h-6 text-gray-700"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-4 8m4-8l4 8m6-8l4 8m0-16V5a2 2 0 00-2-2H6a2 2 0 00-2 2v2m16 0H6"
-                ></path>
-              </svg>
-              <span className="absolute top-0 right-0 -mt-2 -mr-2 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">
-                {totalCartItems ? totalCartItems : '0'}
+        
+        <div className="flex-1 max-w-xl mx-auto">
+          <PrimaryInput setSearchTerm={setSearchTerm} />
+        </div>
+        
+        <Link href="/cart" className="ml-6 relative group">
+          <div className="p-2 rounded-full hover:bg-gray-100 transition-all duration-200">
+            <svg
+              className="w-6 h-6 text-gray-700 group-hover:text-blue-600 transition-colors duration-200"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-4 8m4-8l4 8m6-8l4 8m0-16V5a2 2 0 00-2-2H6a2 2 0 00-2 2v2m16 0H6"
+              ></path>
+            </svg>
+            {totalCartItems > 0 && (
+              <span className="absolute -top-1 -right-1 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-blue-600 rounded-full transition-all duration-300 transform group-hover:scale-110">
+                {totalCartItems}
               </span>
-            </div>
+            )}
           </div>
         </Link>
       </div>
-    </header >
+    </header>
   );
 }
