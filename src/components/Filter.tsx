@@ -1,75 +1,65 @@
 "use client";
-
 import { useState } from "react";
 import { FilterEnum } from "../enums/filterEnum";
 
 interface SelectPage {
   handleSelectedPage: (page: number) => void;
-  categoryFilter:string;
-  setCategory:(prev:FilterEnum) => void;
+  categoryFilter: string;
+  setCategory: (prev: FilterEnum) => void;
 }
 
 export function Filter({ handleSelectedPage, categoryFilter, setCategory }: SelectPage) {
-  // const [useFilter, setFilter] = useState<FilterEnum>(FilterEnum.TODOS);
-
   return (
-    <div className="flex justify-evenly bg-gray-200">
-      <div className="flex mr-4 font-medium">
-        <div
+    <div className="flex justify-between items-center py-6 px-4 bg-white shadow-sm rounded-lg mb-6">
+      <div className="flex font-medium">
+        <button
           onClick={() => setCategory(FilterEnum.TODOS)}
-          className={`${categoryFilter === "TODOS" ? "border-b-4" : "border-0 "
-            } border-red-400 mr-4`}
+          className={`${
+            categoryFilter === "TODOS"
+              ? "border-b-2 text-blue-600 font-semibold"
+              : "text-gray-700 hover:text-blue-500"
+          } border-blue-600 mr-8 pb-1 transition-all duration-200`}
         >
           TODOS OS PRODUTOS
-        </div>
-        <div
+        </button>
+        <button
           onClick={() => setCategory(FilterEnum.CAMISETAS)}
-          className={`${categoryFilter === "CAMISETAS" ? "border-b-4" : "border-0"
-            } border-red-400 mr-4`}
+          className={`${
+            categoryFilter === "CAMISETAS"
+              ? "border-b-2 text-blue-600 font-semibold"
+              : "text-gray-700 hover:text-blue-500"
+          } border-blue-600 mr-8 pb-1 transition-all duration-200`}
         >
           CAMISETAS
-        </div>
-        <div
+        </button>
+        <button
           onClick={() => setCategory(FilterEnum.CANECAS)}
-          className={`${categoryFilter === "CANECAS" ? "border-b-4" : "border-0"
-            } border-red-400 mr-4`}
+          className={`${
+            categoryFilter === "CANECAS"
+              ? "border-b-2 text-blue-600 font-semibold"
+              : "text-gray-700 hover:text-blue-500"
+          } border-blue-600 mr-8 pb-1 transition-all duration-200`}
         >
           CANECAS
-        </div>
+        </button>
       </div>
-      <div>
-        <div>Organizar por</div>
+      <div className="flex flex-col items-end">
+        <div className="text-sm text-gray-600 mb-2 font-medium">Página</div>
         <div className="flex">
-          <div
-            onClick={() => handleSelectedPage(1)}
-            className="rounded-md bg-gray-100 px-2 mr-2"
-          >
-            1
-          </div>
-          <div
-            onClick={() => handleSelectedPage(2)}
-            className="rounded-md bg-gray-100 px-2 mr-2"
-          >
-            2
-          </div>
-          <div
-            onClick={() => handleSelectedPage(3)}
-            className="rounded-md bg-gray-100 px-2 mr-2"
-          >
-            3
-          </div>
-          <div
-            onClick={() => handleSelectedPage(4)}
-            className="rounded-md bg-gray-100 px-2 mr-2"
-          >
-            4
-          </div>
-          <div
-            onClick={() => handleSelectedPage(5)}
-            className="rounded-md bg-gray-100 px-2 mr-2"
-          >
-            5
-          </div>
+          {[1, 2, 3, 4, 5].map((page) => (
+            <button
+              key={page}
+              onClick={() => handleSelectedPage(page)}
+              className="w-8 h-8 rounded-md flex items-center justify-center mx-1 text-sm font-medium transition-all duration-200 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+              style={{
+                backgroundColor: page === 1 ? "#EBF5FF" : "#F9FAFB",
+                color: page === 1 ? "#2563EB" : "#4B5563",
+                border: page === 1 ? "1px solid #BFDBFE" : "1px solid #E5E7EB",
+              }}
+            >
+              {page}
+            </button>
+          ))}
         </div>
       </div>
     </div>
